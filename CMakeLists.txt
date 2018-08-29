@@ -9,4 +9,4 @@ find_package(GLEW REQUIRED)
 
 link_libraries(glfw GLEW OpenGL)
 
-add_executable(LOOK_RUNNING main.cpp headers/device.h headers/shader.h)
+add_executable(LOOK_RUNNING main.cpp headers/device.h headers/shader.h headers/model.h headers/texture.h headers/common.h)

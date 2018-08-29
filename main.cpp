@@ -1,6 +1,7 @@
 #include <iostream>
 #include "headers/device.h"
 #include "headers/shader.h"
+#include "headers/model.h"
 
 void key_callback(GLFWwindow* window , int key , int scancode , int action , int mode){
     if(key == GLFW_KEY_ESCAPE && action == GLFW_PRESS){
@@ -27,11 +28,11 @@ glm::vec3 color() {
 
 int main()
 {
-    auto *d = new device;
+    auto immediateDevice = new device;
 
-    d->initialize("look running" , 1024 , 768);
-    d->setViewPort(0, 0 , 1024 , 768);
-    d->setKeyCallback(key_callback);
+    immediateDevice->initialize("look running" , 1024 , 768);
+    immediateDevice->setViewPort(0, 0 , 1024 , 768);
+    immediateDevice->setKeyCallback(key_callback);
 
     /*顶点坐标*/
     GLfloat vertices[] = {
@@ -39,41 +40,32 @@ int main()
             0.5f, -0.5f, 0.0f,
             0.0f, 0.5f, 0.0f,
     };
+    int numVertices = 3;
 
-    GLuint VBO;
-    GLuint VAO;
-    glGenVertexArrays(1 , &VAO);
-    glGenBuffers(1, &VBO);
+    auto triangleModel = new model;
+    triangleModel->initialize(vertices , numVertices);
 
-    glBindVertexArray(VAO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-    glVertexAttribPointer( 0 , 3 , GL_FLOAT , GL_FALSE , 0 , (void*)0);
+    auto triangleShader = new shader;
+    triangleShader->initialize("../shaders/triangleVertex.glsl" , "../shaders/triangleFragment.glsl");
 
-    glEnableVertexAttribArray(0);
-    glBindBuffer(1,VBO);
+    while (!immediateDevice->windowShouldClosed()){
+        immediateDevice->pollEvents();
 
-    shader triangle("../shaders/triangleVertex.glsl" , "../shaders/triangleFragment.glsl");
+        immediateDevice->clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        immediateDevice->clearColor(0 , 0 , 0 , 1);
 
-    while (!d->windowShouldClosed()){
-        d->pollEvents();
+        triangleShader->use();
+        triangleShader->setVec3("color" , color());
 
-        d->clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        d->clearColor(0 , 0 , 0 , 1);
+        triangleModel->draw(0 , 3);
 
-        triangle.use();
-        triangle.setVec3("color" , color());
-        glDrawArrays(GL_TRIANGLES , 0 , 3);
-
-        d->present();
+        immediateDevice->present();
     }
 
-    d->destroy();
-    triangle.destroy();
+    immediateDevice->destroy();
+    triangleModel->destroy();
+    triangleShader->destroy();
 
-    glDeleteVertexArrays(1, &VAO);
-    glDeleteBuffers(1 , &VBO);
-
-    delete d;
+    delete immediateDevice;
     return 0;
 }

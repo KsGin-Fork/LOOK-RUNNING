@@ -5,20 +5,20 @@
 #ifndef LOOK_RUNNING_SHADER_H
 #define LOOK_RUNNING_SHADER_H
 #include <glm/glm.hpp>
-
 #include <string>
 #include <fstream>
 #include <sstream>
 #include <iostream>
-#include <GL/glew.h>
+
+#include "common.h"
 
 class shader
 {
 public:
     unsigned int ID;
-    // constructor generates the shader on the fly
+    // initialize generates the shader on the fly
     // ------------------------------------------------------------------------
-    shader(const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr)
+    bool initialize(const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr)
     {
         // 1. retrieve the vertex/fragment source code from filePath
         std::string vertexCode;
@@ -99,7 +99,7 @@ public:
         glDeleteShader(fragment);
         if(geometryPath != nullptr)
             glDeleteShader(geometry);
-
+        return true;
     }
     // activate the shader
     // ------------------------------------------------------------------------

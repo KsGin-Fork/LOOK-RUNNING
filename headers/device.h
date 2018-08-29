@@ -5,10 +5,7 @@
 #ifndef LOOK_RUNNING_DEVICE_H
 #define LOOK_RUNNING_DEVICE_H
 
-#define GLEW_STATIC
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-#include <cstdlib>
+#include "common.h"
 
 class device {
 public:
