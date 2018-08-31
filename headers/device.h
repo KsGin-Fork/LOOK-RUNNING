@@ -61,6 +61,9 @@ public:
     void destroy() {
         if (window) free(window);
     }
+    void activeTexture(int textureIdx) {
+        glActiveTexture(static_cast<GLenum>(0x84c0 + textureIdx));
+    }
 };
 
 

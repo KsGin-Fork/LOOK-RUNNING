@@ -2,6 +2,7 @@
 #include "headers/device.h"
 #include "headers/shader.h"
 #include "headers/model.h"
+#include "headers/texture.h"
 
 void key_callback(GLFWwindow* window , int key , int scancode , int action , int mode){
     if(key == GLFW_KEY_ESCAPE && action == GLFW_PRESS){
@@ -36,23 +37,31 @@ int main()
 
     /*顶点坐标*/
     GLfloat vertices[] = {
-            -0.5f, -0.5f, 0.0f,
-            0.5f, -0.5f, 0.0f,
-            0.0f, 0.5f, 0.0f,
+            -0.5f, -0.5f, 0.0f, 0.0f , 1.0f ,
+            0.5f, -0.5f, 0.0f, 1.0f , 1.0f ,
+            0.0f, 0.5f, 0.0f, 0.5f , 0.0f
     };
-    int numVertices = 3;
+    int numVertices = 3 * 5;
 
     auto triangleModel = new model;
     triangleModel->initialize(vertices , numVertices);
+    triangleModel->vertexPointer(0 , 3 , 5 , 0);
+    triangleModel->vertexPointer(1 , 2 , 5 , 3);
 
     auto triangleShader = new shader;
     triangleShader->initialize("../shaders/triangleVertex.glsl" , "../shaders/triangleFragment.glsl");
+
+    auto triangleTexture = new texture;
+    triangleTexture->initialize("../resources/texture1.jpg" , false);
 
     while (!immediateDevice->windowShouldClosed()){
         immediateDevice->pollEvents();
 
         immediateDevice->clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         immediateDevice->clearColor(0 , 0 , 0 , 1);
+        immediateDevice->activeTexture(0);
+
+        triangleTexture->use();
 
         triangleShader->use();
         triangleShader->setVec3("color" , color());

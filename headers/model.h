@@ -12,6 +12,15 @@
  */
 class model {
 public:
+
+    /**
+     * DATA TYPE
+     */
+    enum dataType {
+        VERTEX ,
+        UV
+    };
+
     /**
      * VAO
      */
@@ -32,14 +41,19 @@ public:
 
         glBindVertexArray(vertexArrayObject);
         glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(vertices) * numVertices * 3 , vertices, GL_STATIC_DRAW);
-        glVertexAttribPointer( 0 , numVertices , GL_FLOAT , GL_FALSE , 0 , (void*)0);
-
-        glEnableVertexAttribArray(0);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(float) * numVertices , vertices, GL_STATIC_DRAW);
         glBindBuffer(1,vertexBufferObject);
 
         return true;
     }
+
+    /**
+     * pointer vertex buffer
+     */
+     void vertexPointer(const unsigned int idx , const int size , const int stride , const int begin) {
+        glVertexAttribPointer(idx , size , GL_FLOAT , GL_FALSE , stride * sizeof(float) , (void*)(begin * sizeof(float)));
+        glEnableVertexAttribArray(idx);
+     }
 
     /**
      * draw
