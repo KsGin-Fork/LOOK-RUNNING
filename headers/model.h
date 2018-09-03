@@ -12,15 +12,6 @@
  */
 class model {
 public:
-
-    /**
-     * DATA TYPE
-     */
-    enum dataType {
-        VERTEX ,
-        UV
-    };
-
     /**
      * VAO
      */
