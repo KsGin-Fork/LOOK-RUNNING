@@ -6,11 +6,11 @@ set(CMAKE_CXX_STANDARD 14)
 
 if (APPLE)
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -framework OPENGL")
-elseif(LINUX)
+elseif(UNIX)
     find_package(GLEW REQUIRED)
     find_package(OpenGL REQUIRED)
     find_package(glfw3 REQUIRED)
-    link_libraries(glfw3 GLEW OpenGL)
+    link_libraries(glfw GLEW OpenGL)
 endif ()
 
 add_executable(LOOK_RUNNING main.cpp headers/device.h headers/shader.h headers/model.h headers/texture.h headers/common.h headers/obj.h)
