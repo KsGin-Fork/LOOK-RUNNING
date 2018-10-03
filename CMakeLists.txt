@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD 14)
 
 if (APPLE)
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -framework OPENGL")
+    include_directories(/usr/local/include/)
 elseif(UNIX)
     find_package(GLEW REQUIRED)
     find_package(OpenGL REQUIRED)

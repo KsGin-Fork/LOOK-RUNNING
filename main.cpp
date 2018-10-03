@@ -3,6 +3,10 @@
 #include "headers/shader.h"
 #include "headers/model.h"
 #include "headers/texture.h"
+#include "headers/common.h"
+
+const int width = 800;
+const int height = 500;
 
 void key_callback(GLFWwindow* window , int key , int scancode , int action , int mode){
     if(key == GLFW_KEY_ESCAPE && action == GLFW_PRESS){
@@ -31,17 +35,19 @@ int main()
 {
     auto immediateDevice = new device;
 
-    immediateDevice->initialize("look running" , 1024 , 768);
-    immediateDevice->setViewPort(0, 0 , 1024 , 768);
+    immediateDevice->initialize("look running" , width , height);
     immediateDevice->setKeyCallback(key_callback);
 
     /*顶点坐标*/
     GLfloat vertices[] = {
-            -0.5f, -0.5f, 0.0f, 0.0f , 1.0f ,
-            0.5f, -0.5f, 0.0f, 1.0f , 1.0f ,
-            0.0f, 0.5f, 0.0f, 0.5f , 0.0f
+            -1.0f, -1.0f, 0.0f, 0.0f , 1.0f ,
+            1.0f, 1.0f, 0.0f, 1.0f , 0.0f ,
+            -1.0f, 1.0f, 0.0f, 0.0f , 0.0f,
+            -1.0f, -1.0f, 0.0f, 0.0f , 1.0f ,
+            1.0f , -1.0f , 0.0f , 1.0f , 1.0f ,
+            1.0f, 1.0f, 0.0f, 1.0f , 0.0f
     };
-    int numVertices = 3 * 5;
+    int numVertices = 6 * 5;
 
     auto triangleModel = new model;
     triangleModel->initialize(vertices , numVertices);
@@ -52,7 +58,7 @@ int main()
     triangleShader->initialize("../shaders/triangleVertex.glsl" , "../shaders/triangleFragment.glsl");
 
     auto triangleTexture = new texture;
-    triangleTexture->initialize("../resources/texture1.jpg" , false);
+    triangleTexture->initialize("../resources/texture2.jpg" , false);
 
     while (!immediateDevice->windowShouldClosed()){
         immediateDevice->pollEvents();
@@ -65,10 +71,12 @@ int main()
 
         triangleShader->use();
         triangleShader->setVec3("color" , color());
+        triangleShader->setVec2("screen" , glm::vec2(width , height));
 
-        triangleModel->draw(0 , 3);
+        triangleModel->draw(0 , 6);
 
         immediateDevice->present();
+
     }
 
     immediateDevice->destroy();
