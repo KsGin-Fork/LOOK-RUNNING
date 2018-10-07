@@ -25,5 +25,5 @@ void main() {
 
     }
 
-    frag = texture(textureSampler , vec2(temp / M, outUV.y)).rgb;
+    frag = texture(textureSampler , vec2(temp / M, outUV.y)).rgb * color;
 }

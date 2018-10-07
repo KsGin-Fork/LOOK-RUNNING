@@ -61,10 +61,9 @@ int main()
     triangleTexture->initialize("../resources/texture2.jpg" , false);
 
     while (!immediateDevice->windowShouldClosed()){
-        immediateDevice->pollEvents();
 
-        immediateDevice->clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        immediateDevice->clearColor(0 , 0 , 0 , 1);
+        immediateDevice->clear(GL_COLOR_BUFFER_BIT);
+
         immediateDevice->activeTexture(0);
 
         triangleTexture->use();
@@ -76,6 +75,7 @@ int main()
         triangleModel->draw(0 , 6);
 
         immediateDevice->present();
+        immediateDevice->pollEvents();
 
     }
 
