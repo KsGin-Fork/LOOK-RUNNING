@@ -14,7 +14,7 @@ elseif(UNIX)
     link_libraries(glfw GLEW OpenGL)
 endif ()
 
-add_executable(LOOK_RUNNING main.cpp headers/device.h headers/shader.h headers/model.h headers/texture.h headers/common.h headers/obj.h)
+add_executable(LOOK_RUNNING main.cpp headers/device.h headers/shader.h headers/model.h headers/texture.h headers/common.h)
 
 if (APPLE)
     target_link_libraries(LOOK_RUNNING /usr/local/lib/libglfw.dylib)
